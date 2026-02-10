@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add User</title>
+</head>
+<body>
+<form method="POST" th:action="@{/user/insert}" th:object="${user}">
+    <div>
+        <label for="id">Id:</label>
+        <input type="number" id="id" th:field="*{id}" placeholder="Insert the id" required/>
+    </div>
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}" placeholder="Insert the name" required/>
+    </div>
+    <div>
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" th:field="*{surname}" placeholder="Insert the surname" required/>
+    </div>
+    <div>
+        <button type="submit">Save User</button>
+    </div>
+
+</form>
+
+<br>
+<hr>
+<br>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.surname}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
