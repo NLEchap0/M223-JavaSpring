@@ -4,7 +4,6 @@ import ch.samt.customers.model.Customer;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +47,7 @@ public class CustomerController {
     @PostMapping("/addCustomer")
     public String addCustomer(@Valid Customer customer, Errors errors) {
         if(errors.hasErrors()) {
-            return "customerList";
+            return "home";
         }
         customers.add(customer);
         return "addCustomer";
