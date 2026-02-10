@@ -1,5 +1,4 @@
-# M223: Multi-User Object-Oriented Applications
-# 🚀 Java Spring Boot Development | Academic Year 2025-26
+# M223: Multi-User Object-Oriented Applications - Java Spring Boot Development | Academic Year 2025-26
 This repository contains exercises, projects, and documentation developed for Module 223 of the ICT competence framework. The core focus is on building robust, multi-user applications using Java Spring and relational databases.
 
 <b>
