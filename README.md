@@ -41,15 +41,6 @@ The primary objective of this module is to develop multi-user object-oriented ap
 
 <b>Tools:</b> Maven/Gradle, JUnit, Mockito
 
-# 📂 Repository Structure
-## Theory/: Conceptual notes on DBMS multi-user capacity and ACID transactions.
-
-## Exercises/: Small-scale Java Spring implementations focusing on specific module goals.
-
-## Projects/: Full-scale multi-user applications with integrated database layers and user interfaces.
-
-## Docs/: Testing protocols, UML diagrams, and transaction documentation.
-
 # 📝 Performance Goals
 Analyze if a database satisfies multi-user requirements.
 
