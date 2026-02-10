@@ -7,6 +7,7 @@ Author: Bryan Ciaponi (I3AC)
 </b>
 
 <br>
+<br>
 
 <b>
 <a href="https://www.modulbaukasten.ch/module/223/3/it-IT?degree=03a95323-bf92-eb11-b1ac-000d3a831ef4&title=Realizzare-un%E2%80%99applicazione-multiutente-orientata-oggetti&tab=0">
@@ -42,17 +43,13 @@ The primary objective of this module is to develop multi-user object-oriented ap
 <b>Tools:</b> Maven/Gradle, JUnit, Mockito
 
 # 📂 Repository Structure
-## Theory/ 
-Conceptual notes on DBMS multi-user capacity and ACID transactions.
+## Theory/: Conceptual notes on DBMS multi-user capacity and ACID transactions.
 
-## Exercises/
-Small-scale Java Spring implementations focusing on specific module goals.
+## Exercises/: Small-scale Java Spring implementations focusing on specific module goals.
 
-## Projects/
-Full-scale multi-user applications with integrated database layers and user interfaces.
+## Projects/: Full-scale multi-user applications with integrated database layers and user interfaces.
 
-## Docs/
-Testing protocols, UML diagrams, and transaction documentation.
+## Docs/: Testing protocols, UML diagrams, and transaction documentation.
 
 # 📝 Performance Goals
 Analyze if a database satisfies multi-user requirements.
