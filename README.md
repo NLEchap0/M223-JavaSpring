@@ -3,6 +3,7 @@
 This repository contains exercises, projects, and documentation developed for Module 223 of the ICT competence framework. The core focus is on building robust, multi-user applications using Java Spring and relational databases.
 <b>
 Author: Bryan Ciaponi (I3AC)
+
 Module Link: ICT Modulbaukasten - M223
 </b>
 # 🎯 Module Competence
@@ -10,36 +11,50 @@ The primary objective of this module is to develop multi-user object-oriented ap
 
 # 🧠 Key Learning Objectives
 <b>Database Concurrency:</b> Ensuring databases meet multi-user capacity requirements.
+
 <b>Transaction Management:</b> Implementing transactions to guarantee data integrity in a multi-user environment.
+
 <b>Persistence Layers:</b> Bridging the gap between the Business Object Model and Relational Data Models (ORM).
+
 <b>Architecture:</b> Exploring Client/Server, Multitier, Middleware, and Framework architectures.
+
 <b>Security & Rights:</b> Implementing user authorization and multi-user rights management.
+
 <b>Quality Assurance:</b> Defining and executing functional and non-functional tests for multi-user scenarios.
 
 # 🛠️ Tech Stack
 <b>Language:</b> Java 21+
+
 <b>Framework:</b> Spring Boot (Data JPA, Web, Security)
+
 <b>Database:</b> SQL (PostgreSQL/MySQL/H2)
+
 <b>Modeling:</b> UML (Class & Sequence Diagrams)
+
 <b>Tools:</b> Maven/Gradle, JUnit, Mockito
 
 # 📂 Repository Structure
-## 📂 Theory/ 
+## Theory/ 
 Conceptual notes on DBMS multi-user capacity and ACID transactions.
 
-## 📂 Exercises/
+## Exercises/
 Small-scale Java Spring implementations focusing on specific module goals.
 
-## 📂 Projects/
+## Projects/
 Full-scale multi-user applications with integrated database layers and user interfaces.
 
-## 📂 Docs/
+## Docs/
 Testing protocols, UML diagrams, and transaction documentation.
 
 # 📝 Performance Goals
 Analyze if a database satisfies multi-user requirements.
+
 Develop applications utilizing transactions for data consistency.
+
 Implement user interfaces and permission profiles.
+
 Test functional and non-functional aspects of multi-user capacity.
+
 Document transactions for maintainability and reproducibility.
-Created by Bryan Ciaponi - Student at I3AC
+
+## Created by Bryan Ciaponi - Student at I3AC
