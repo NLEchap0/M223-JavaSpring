@@ -51,5 +51,3 @@ Implement user interfaces and permission profiles.
 Test functional and non-functional aspects of multi-user capacity.
 
 Document transactions for maintainability and reproducibility.
-
-## Created by Bryan Ciaponi - Student at I3AC
