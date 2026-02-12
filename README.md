@@ -14,10 +14,14 @@ Module Link (italian): ICT Modulbaukasten - M223
 </a>
 </b>
 
-# 🎯 Module Competence
+---
+
+## 🎯 Module Competence
 The primary objective of this module is to develop multi-user object-oriented applications, including database adjustments, implementation, testing, and comprehensive documentation.
 
-# 🧠 Key Learning Objectives
+---
+
+## 🧠 Key Learning Objectives
 <b>Database Concurrency:</b> Ensuring databases meet multi-user capacity requirements.
 
 <b>Transaction Management:</b> Implementing transactions to guarantee data integrity in a multi-user environment.
@@ -30,7 +34,9 @@ The primary objective of this module is to develop multi-user object-oriented ap
 
 <b>Quality Assurance:</b> Defining and executing functional and non-functional tests for multi-user scenarios.
 
-# 🛠️ Tech Stack
+---
+
+## 🛠️ Tech Stack
 <b>Language:</b> Java 21+
 
 <b>Framework:</b> Spring Boot (Data JPA, Web, Security)
@@ -41,7 +47,9 @@ The primary objective of this module is to develop multi-user object-oriented ap
 
 <b>Tools:</b> Maven/Gradle, JUnit, Mockito
 
-# 📝 Performance Goals
+---
+
+## 📝 Performance Goals
 Analyze if a database satisfies multi-user requirements.
 
 Develop applications utilizing transactions for data consistency.
