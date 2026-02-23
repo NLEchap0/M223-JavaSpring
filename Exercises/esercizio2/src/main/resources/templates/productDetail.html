@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Details</title>
+</head>
+<body>
+<h1>Product Data</h1>
+<p>ID: [[${product.id}]]</p>
+<p>Name: [[${product.name}]]</p>
+<p>Price: [[${product.price}]]</p>
+<p>Expiration: [[${product.expirationDate}]]</p>
+<p>Description: [[${product.description}]]</p>
+<br>
+<a th:href="@{/products}">Back to list</a>
+</body>
+</html>

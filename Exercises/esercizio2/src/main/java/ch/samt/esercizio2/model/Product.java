@@ -1,29 +1,32 @@
 package ch.samt.esercizio2.model;
 
 import jakarta.validation.constraints.*;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
+@AllArgsConstructor
 public class Product {
-    @NotEmpty(message = "This field is mandatory")
-    @Positive(message = "The number must be greater or equals than 0")
+
+    @NotNull(message = "ID is mandatory")
+    @Positive(message = "ID must be a positive number")
     private Integer id;
 
-    @NotBlank(message = "This field is mandatory")
-    @Size(min = 2, max = 100, message = "It must contain 2 characters and a maximum of 100")
+    @NotBlank(message = "Name is mandatory")
+    @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
     private String name;
 
-    @NotEmpty(message = "This field is mandatory")
-    @Positive(message = "The number must be greater or equals than 0")
+    @NotNull(message = "Price is mandatory")
+    @Positive(message = "Price must be positive")
     private Double price;
 
-    @NotNull(message = "This field is mandatory")
-    @FutureOrPresent(message = "Date cannot be in the past")
-    private LocalDate releaseDate;
+    @FutureOrPresent(message = "Expiration date cannot be in the past")
+    private LocalDate expirationDate;
+
+    // Added in Step 10
+    @NotBlank(message = "Description is mandatory")
+    private String description;
 }
