@@ -2,23 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>New Product</title>
+    <link rel="stylesheet" th:href="@{/stylesheet.css}">
 </head>
 <body>
 <h1>Insert New Product</h1>
 <form th:action="@{/newproduct}" th:object="${product}" method="post">
-    ID: <input type="number" th:field="*{id}">
+    <label>ID:</label> <input type="number" th:field="*{id}">
     <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}" style="color:red"></span><br>
 
-    Name: <input type="text" th:field="*{name}">
+    <label>Name:</label> <input type="text" th:field="*{name}">
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></span><br>
 
-    Price: <input type="number" step="0.01" th:field="*{price}">
+    <label>Price:</label> <input type="number" step="0.01" th:field="*{price}">
     <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color:red"></span><br>
 
-    Expiration Date: <input type="date" th:field="*{expirationDate}">
+    <label>Expiration Date:</label> <input type="date" th:field="*{expirationDate}">
     <span th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}" style="color:red"></span><br>
 
-    Description: <input type="text" th:field="*{description}">
+    <label>Description:</label> <input type="text" th:field="*{description}">
     <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color:red"></span><br>
 
     <button type="submit">Send</button>

@@ -1,7 +1,15 @@
 <!DOCTYPE html>
-<html>
-<body>
-<h1>Error: Product not found</h1>
-<a href="/products">Back to list</a>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ERROR 404</title>
+    <link rel="stylesheet" th:href="@{/stylesheet.css}">
+</head>
+<body class="error-page-body">
+<div class="error-container">
+    <h1 class="error-title">404</h1>
+    <p class="error-message">Ops! The page you're looking for doesn't exist.</p>
+    <a th:href="@{/products}" class="error-btn">Go back to the products list</a>
+</div>
 </body>
 </html>

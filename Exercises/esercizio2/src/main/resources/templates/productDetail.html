@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Product Details</title>
+    <meta charset="UTF-8">
+    <title>Dettagli Prodotto</title>
+    <link rel="stylesheet" th:href="@{/stylesheet.css}">
 </head>
-<body>
-<h1>Product Data</h1>
-<p>ID: [[${product.id}]]</p>
-<p>Name: [[${product.name}]]</p>
-<p>Price: [[${product.price}]]</p>
-<p>Expiration: [[${product.expirationDate}]]</p>
-<p>Description: [[${product.description}]]</p>
-<br>
-<a th:href="@{/products}">Back to list</a>
+<body class="product-details-body">
+
+<div class="product-card">
+    <h1 class="product-title">Dati Prodotto</h1>
+
+    <div class="product-info">
+        <span class="product-label">ID:</span>
+        <span class="product-value">[[${product.id}]]</span>
+    </div>
+
+    <div class="product-info">
+        <span class="product-label">Nome:</span>
+        <span class="product-value">[[${product.name}]]</span>
+    </div>
+
+    <div class="product-info">
+        <span class="product-label">Prezzo:</span>
+        <span class="product-value">[[${product.price}]]</span>
+    </div>
+
+    <div class="product-info">
+        <span class="product-label">Scadenza:</span>
+        <span class="product-value">[[${product.expirationDate}]]</span>
+    </div>
+
+    <div class="product-description-container">
+        <span class="product-label">Descrizione:</span>
+        <p class="product-description">[[${product.description}]]</p>
+    </div>
+
+    <div class="product-footer">
+        <a th:href="@{/products}" class="product-back-link">← Torna alla lista</a>
+    </div>
+</div>
+
 </body>
 </html>
