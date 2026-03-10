@@ -1,52 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
+    <th:block th:replace="~{fragments :: Heared-Default}"></th:block>
 </head>
-<body>
-<h1>
-    Hey! This is the home page!
-    Add a new customer down below!
-</h1>
+<body class="bg-black">
 
-<form method="POST" th:action="@{/addCustomer}" th:object="${customer}">
-    <div>
-        <label for="id">Id:</label>
-        <input type="number" id="id" th:field="*{id}" placeholder="Insert the id" required/>
-        <span class="validationError"
-            th:if="${#fields.hasErrors('id')}"
-            th:errors="${customer.id}">Name Error
-        </span>
-    </div>
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" th:field="*{name}" placeholder="Insert the name" required/>
-        <span class="validationError"
-              th:if="${#fields.hasErrors('name')}"
-              th:errors="${customer.name}">Name Error
-        </span>
-    </div>
-    <div>
-        <label for="surname">Surname:</label>
-        <input type="text" id="surname" th:field="*{surname}" placeholder="Insert the surname" required/>
-        <span class="validationError"
-              th:if="${#fields.hasErrors('surname')}"
-              th:errors="${customer.surname}">Name Error
-        </span>
-    </div>
-    <div>
-        <label for="age">Age:</label>
-        <input type="number" id="age" th:field="*{age}" placeholder="Insert the age" required/>
-        <span class="validationError"
-              th:if="${#fields.hasErrors('age')}"
-              th:errors="${customer.age}">Name Error
-        </span>
-    </div>
-    <div>
-        <button type="submit">Save Customer</button>
-    </div>
+<th:block th:replace="~{fragments :: navbar}"></th:block>
 
-</form>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-8">
+
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-white mb-2">Benvenuto nella Home!</h1>
+                <p class="lead text-info opacity-75">Registra un nuovo cliente nel sistema</p>
+            </div>
+
+            <div class="card shadow-2-strong bg-dark text-white border-secondary" style="border-radius: 15px; overflow: hidden;">
+                <div class="card-header bg-black bg-gradient border-secondary py-3">
+                    <h3 class="mb-0 text-center fw-light">
+                        <i class="bi bi-person-plus-fill me-2 text-info"></i>NUOVA ANAGRAFICA
+                    </h3>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <form method="POST" th:action="@{/addCustomer}" th:object="${customer}" class="needs-validation">
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label small text-uppercase tracking-wider text-info fw-bold">Nome</label>
+                                <input type="text" id="name" th:field="*{name}"
+                                       class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
+                                       th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"
+                                       placeholder="Es: Mario" required/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Errore nome</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="surname" class="form-label small text-uppercase tracking-wider text-info fw-bold">Cognome</label>
+                                <input type="text" id="surname" th:field="*{surname}"
+                                       class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
+                                       th:classappend="${#fields.hasErrors('surname')} ? 'is-invalid'"
+                                       placeholder="Es: Rossi" required/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Errore cognome</div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="age" class="form-label small text-uppercase tracking-wider text-info fw-bold">Età</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-secondary border-secondary text-white"><i class="bi bi-calendar-event"></i></span>
+                                    <input type="number" id="age" th:field="*{age}"
+                                           class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
+                                           th:classappend="${#fields.hasErrors('age')} ? 'is-invalid'"
+                                           placeholder="0" required/>
+                                </div>
+                                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Errore età</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 pt-4 border-top border-secondary text-center">
+                            <div class="mb-4">
+                                <button type="submit" class="btn btn-info btn-lg px-5 py-3 fw-bold text-dark shadow hover-scale w-100 w-md-auto">
+                                    SALVA CLIENTE <i class="bi bi-cloud-arrow-up-fill ms-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <p class="text-center text-secondary mt-4 small">
+                Tutti i campi sono obbligatori. I dati verranno salvati nel database centrale.
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .custom-input:focus {
+        background-color: #1a1a1a !important;
+        border-color: #0dcaf0 !important;
+        box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+        color: white !important;
+    }
+    .hover-scale { transition: transform 0.2s; }
+    .hover-scale:hover { transform: scale(1.05); }
+    .hover-opacity:hover { opacity: 0.8; }
+    .tracking-wider { letter-spacing: 1px; }
+    .custom-input::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;/
+    font-style: italic;
+        font-size: 0.9rem;
+    }
+    .custom-input:focus::placeholder {
+        color: rgba(13, 202, 240, 0.7) !important;
+    }
+    .custom-input {
+        background-color: #1a1a1a !important;
+        border: 1px solid #444 !important;
+        color: #ffffff !important;
+    }
+</style>
+
+
 </body>
 </html>

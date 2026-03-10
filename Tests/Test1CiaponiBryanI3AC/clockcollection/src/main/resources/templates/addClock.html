@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Clock</title>
+    <link rel="stylesheet" th:href="@{/stylesheet.css}">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a th:href="@{/clocks}">Homepage</a></li>
+      <li><a th:href="@{/clocks/list}">Clock List</a></li>
+      <li><a class="active" th:href="@{/clocks/add}">Add Clock</a></li>
+    </ul>
+  </nav>
+
+
+  <form method="POST" th:action="@{/clocks/saveClock}" th:object="${clock}">
+    <div>
+      <label for="id">Id:</label>
+      <input type="number" id="id" th:field="*{id}" placeholder="Insert the id" required/>
+      <span class="validationError"
+            th:if="${#fields.hasErrors('id')}"
+            th:errors="${clock.id}">
+          </span>
+    </div>
+    <div>
+      <label for="brand">Name:</label>
+      <input type="text" id="brand" th:field="*{brand}" placeholder="Insert the brand" required/>
+      <span class="validationError"
+            th:if="${#fields.hasErrors('brand')}"
+            th:errors="${clock.brand}">
+          </span>
+    </div>
+    <div>
+      <label for="model">Model:</label>
+      <input type="text" id="model" th:field="*{model}" placeholder="Insert the model" required/>
+      <span class="validationError"
+            th:if="${#fields.hasErrors('model')}"
+            th:errors="${clock.model}">
+          </span>
+    </div>
+    <div>
+      <label for="price">Price:</label>
+      <input type="number" id="price" th:field="*{price}" placeholder="Insert the price" required/>
+      <span class="validationError"
+            th:if="${#fields.hasErrors('price')}"
+            th:errors="${clock.price}">
+          </span>
+    </div>
+    <div>
+      <button type="submit">Save Clock</button>
+    </div>
+
+  </form>
+</body>
+</html>

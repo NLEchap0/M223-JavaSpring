@@ -1,27 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <th:block th:replace="~{fragments :: Heared-Default}"></th:block>
 </head>
-<body>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Age</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="customer : ${customers}">
-                <td th:text="${customer.id}"></td>
-                <td th:text="${customer.name}"></td>
-                <td th:text="${customer.surname}"></td>
-                <td th:text="${customer.age}"></td>
-            </tr>
-        </tbody>
-    </table>
+<body class="bg-black">
+    <th:block th:replace="~{fragments :: navbar}"></th:block>
+
+
+
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <div style="width: 80%;" class="px-md-5">
+
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold text-white mb-2">Database <span class="text-info">Clienti</span></h1>
+                    <p class="lead text-info opacity-75">Visualizza e gestisci tutti i record salvati</p>
+                </div>
+
+                <div class="card shadow-lg bg-dark text-light border-secondary mb-5" style="border-radius: 15px; overflow: hidden;">
+
+                    <div class="card-header bg-black bg-gradient border-secondary py-4">
+                        <h2 class="mb-4 text-center text-uppercase fw-light tracking-wider">
+                            <i class="bi bi-people-fill me-2 text-info"></i>Archivio Clienti
+                        </h2>
+
+                        <form id="searchForm" class="d-flex align-items-center px-md-5" action="/loadCustomers" method="get">
+                            <div class="input-group">
+                                <select id="searchType" class="form-select bg-dark text-info border-secondary fw-bold" style="max-width: 130px; cursor: pointer;">
+                                    <option value="id" class="text-white" selected>ID</option>
+                                    <option value="surname" class="text-white">Cognome</option>
+                                </select>
+
+                                <input id="searchInput" class="form-control bg-dark text-white border-secondary custom-input-nav"
+                                       type="search" name="id"
+                                       placeholder="Cerca per ID..."
+                                       aria-label="Search" required>
+
+                                <button class="btn btn-info fw-bold text-dark px-4" type="submit">
+                                    <i class="bi bi-search me-2"></i>CERCA
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover align-middle mb-0">
+                                <thead class="bg-black border-bottom border-secondary">
+                                <tr class="text-info text-uppercase small tracking-wider">
+                                    <th class="py-4 ps-4">ID</th>
+                                    <th class="py-4">Nome</th>
+                                    <th class="py-4">Cognome</th>
+                                    <th class="py-4 text-center">Età</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="customer : ${customers}" class="border-bottom border-secondary border-opacity-25">
+                                    <td class="ps-4 text-secondary fw-bold" th:text="${'#' + customer.id}"></td>
+                                    <td class="fw-bold fs-5 text-white" th:text="${customer.name}"></td>
+                                    <td class="fs-5 text-white opacity-75" th:text="${customer.surname}"></td>
+                                    <td class="text-center">
+                                        <span class="badge bg-info text-dark px-3 py-2 fs-6 fw-bold" th:text="${customer.age + ' anni'}"></span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(customers)}">
+                                    <td colspan="5" class="text-center py-5 text-secondary fs-4">
+                                        Nessun cliente registrato nel sistema.
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const searchType = document.getElementById('searchType');
+        const searchInput = document.getElementById('searchInput');
+        const searchForm = document.getElementById('searchForm');
+
+        searchType.addEventListener('change', function() {
+            if (this.value === 'surname') {
+                searchInput.name = 'surname';
+                searchInput.placeholder = 'Inserisci cognome...';
+                searchInput.type = 'text';
+            } else {
+                searchInput.name = 'id';
+                searchInput.placeholder = 'Inserisci ID...';
+                searchInput.type = 'number';
+            }
+        });
+
+        searchForm.addEventListener('submit', function(e) {
+            if (searchType.value === 'surname') {
+                e.preventDefault();
+                const val = searchInput.value.trim();
+                if(val) window.location.href = '/loadCustomers/' + val;
+            }
+        });
+    </script>
+
+    <style>
+        .table-dark {
+            --bs-table-color: #e0e0e0;
+        }
+        .custom-input-nav:focus {
+            background-color: #1a1a1a !important;
+            border-color: #0dcaf0 !important;
+            box-shadow: none;
+        }
+        #searchType:focus {
+            box-shadow: none;
+            border-color: #0dcaf0;
+        }
+    </style>
 </body>
 </html>

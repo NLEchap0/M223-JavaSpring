@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <title>Clock List</title>
+      <link rel="stylesheet" th:href="@{/stylesheet.css}">
+  </head>
+  <body>
+  <nav>
+    <ul>
+      <li><a th:href="@{/clocks}">Homepage</a></li>
+      <li><a class="active" th:href="@{/clocks/list}">Clock List</a></li>
+      <li><a th:href="@{/clocks/add}">Add Clock</a></li>
+    </ul>
+  </nav>
+
+
+  <h1>Clock List</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="clock : ${clocks}">
+          <td th:text="${clock.id}"></td>
+          <td th:text="${clock.brand}"></td>
+          <td th:text="${clock.model}"></td>
+          <td th:text="${clock.price}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

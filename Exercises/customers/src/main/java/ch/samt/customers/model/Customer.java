@@ -2,14 +2,13 @@ package ch.samt.customers.model;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode
 public class Customer {
-    @NotNull
+    @Id
     private Long id;
 
     @NotBlank

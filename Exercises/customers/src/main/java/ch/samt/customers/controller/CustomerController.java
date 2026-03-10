@@ -1,46 +1,56 @@
 package ch.samt.customers.controller;
 
+import ch.samt.customers.data.CustomerRepository;
 import ch.samt.customers.model.Customer;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 
 @Controller
-public class CustomerController {
+public class CustomerController{
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    public CustomerController(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("customer", new Customer());
         return "home";
     }
 
-    private final List<Customer> customers = new ArrayList<>(
-            Arrays.asList(
-                    new Customer(1L, "Bryan", "Ciaponi", 104),
-                    new Customer(2L, "Riley", "Bianchi", 69),
-                    new Customer(3L, "Nicola", "Capelli", 67)
-            )
-    );
-
     @GetMapping("/loadCustomers")
     public String loadCustomers(Model model,
                                 @RequestParam(value = "id",
                                         required = false) Long customerId) {
         if(customerId == null) {
-            model.addAttribute("customers", customers);
+            model.addAttribute("customers", customerRepository.findAll());
         } else {
-            Customer customer = customers.stream()
-                    .filter(c -> c.getId().equals(customerId))
-                    .findFirst().orElse(null);
-            model.addAttribute("customers", customer);
+            customerRepository.findById(customerId).ifPresentOrElse(
+                    c -> model.addAttribute("customers", List.of(c)),
+                    () -> model.addAttribute("customers", Collections.emptyList())
+            );
         }
+        return "customerList";
+    }
+
+    @GetMapping("/loadCustomers/{surnameToFilter}")
+    public String loadCustomersSurname(Model model, @PathVariable String surnameToFilter) {
+        List<Customer> filteredCustomers = customerRepository.findBySurname(surnameToFilter);
+
+        model.addAttribute("customers", filteredCustomers);
+
         return "customerList";
     }
 
@@ -49,7 +59,8 @@ public class CustomerController {
         if(errors.hasErrors()) {
             return "home";
         }
-        customers.add(customer);
-        return "addCustomer";
+        customerRepository.save(customer);
+
+        return "redirect:/loadCustomers";
     }
 }
