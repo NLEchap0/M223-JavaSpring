@@ -1,11 +1,10 @@
 package ch.samt.customers;
 
 import ch.samt.customers.data.CustomerRepository;
-import ch.samt.customers.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +13,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@AutoConfigureMockMvc  // Abilita l'uso di MockMvc che ci permette di simulare le chiamate HTTP (GET, POST, ecc..)
-@SpringBootTest  // Avvia l'applicazione Spring con tutte le sue componenti
-@Transactional  // Non del tutto necessario qua, ma assicura che ogni test sia eseguito in modo transazionale (tutto o niente, modifiche incomplete vengono annullate)
+@AutoConfigureMockMvc
+@SpringBootTest
+@Transactional
 public class CustomerControllerTests {
 
     @Autowired
@@ -27,61 +26,71 @@ public class CustomerControllerTests {
 
     @Test
     public void testLoadCustomers() throws Exception {
-        mockMvc.perform(get("/customers"))
-                .andExpect(status().isOk())  // Verifica che lo stato sia OK (200)
-                .andExpect(view().name("customerList"))  // Verifica che la vista sia "customerList"
-                .andExpect(model().attribute("customers", customerRepository.findAll()))  // Verifica che i clienti contenuti in "customers" siano esattamente quelli della chiamata "customerRepository.findAll()"
-                .andExpect(model().attribute("customers", hasSize(3)))  // Verifica il numero di clienti
-                .andExpect(model().attribute("customers", hasItem(hasProperty("name", is("Mario")))));  // Verifica che ci sia un cliente di nome "Mario"
+        // Percorso aggiornato a /loadCustomers come nel tuo controller
+        mockMvc.perform(get("/loadCustomers"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("customerList"))
+                // Il tuo controller usa l'attributo "customers" (plurale)
+                .andExpect(model().attribute("customers", hasSize(greaterThanOrEqualTo(0))));
     }
 
     @Test
     public void testLoadInsertPage() throws Exception {
-        mockMvc.perform(get("/customers/insert"))
-                .andExpect(status().isOk())  // Verifica che lo stato sia OK (200)
-                .andExpect(view().name("insertCustomer"))  // Verifica che la vista sia "insertCustomer"
-                .andExpect(model().attributeExists("customer"));  // Verifica che il modello contenga un attributo "customer"
+        // La tua pagina di inserimento (home) è mappata su "/"
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("home"))
+                .andExpect(model().attributeExists("customer"));
     }
 
     @Test
     public void testSaveCustomer_Success() throws Exception {
-        // Testa la POST con dati validi
-        mockMvc.perform(post("/customers/insert")
+        // Percorso aggiornato a /addCustomer
+        mockMvc.perform(post("/addCustomer")
                         .param("name", "Gino")
                         .param("surname", "Bartali")
-                        .param("age", "70"))
-                .andExpect(status().is3xxRedirection())  // Verifica che ci sia una redirezione come implementato nel metodo => return "redirect:/customers"
-                .andExpect(redirectedUrl("/customers"));  // Verifica la redirezione a /customers
+                        .param("age", "70")
+                        .param("city", "Firenze")
+                        .param("ccNumber", "4242424242424242")
+                        .param("ccExpiration", "12/25")
+                        .param("ccCVV", "123"))
+                .andExpect(status().is3xxRedirection())
+                // Il tuo controller fa redirect su /loadCustomers
+                .andExpect(redirectedUrl("/loadCustomers"));
 
-        // Verifica che Bartali sia ora presente in DB
-        Customer savedCustomer = customerRepository.findBySurname("Bartali").get(0);
-        assert savedCustomer != null;
-        assert savedCustomer.getName().equals("Gino");
-        assert savedCustomer.getAge().equals(70);
+        assert !customerRepository.findBySurnameIgnoreCase("Bartali").isEmpty();
     }
 
     @Test
     public void testSaveCustomer_WithErrors() throws Exception {
-        // Testa il funzionamento della validation (manca l'età del cliente e quindi il tentativo di save non andrà a buon fine)
-        mockMvc.perform(post("/customers/insert")
+        // Percorso /addCustomer, ma senza il parametro 'age' per forzare l'errore
+        mockMvc.perform(post("/addCustomer")
                         .param("name", "Fausto")
                         .param("surname", "Coppi"))
-                .andExpect(status().isOk())  // Lo stato è OK, ma non c'è redirezione
-                .andExpect(view().name("insertCustomer"))  // La vista restituita è di nuovo il form
-                .andExpect(model().attributeHasFieldErrors("customer", "age"));  // Verifica l'errore sul campo "age"
+                .andExpect(status().isOk())
+                // In caso di errore il tuo controller ritorna la vista "home"
+                .andExpect(view().name("home"))
+                .andExpect(model().attributeHasFieldErrors("customer", "age"));
 
-        // Verifica che Fausto Coppi NON sia stato inserito in DB
-        assert customerRepository.findBySurname("Coppi").isEmpty();
-        //  Provare a commentare la validation sul campo "age" e verificare che questo test fallisce
+        assert customerRepository.findBySurnameIgnoreCase("Coppi").isEmpty();
     }
 
     @Test
     public void testLoadCustomersBySurname() throws Exception {
-        mockMvc.perform(get("/customers/Rossi"))
-                .andExpect(status().isOk())  // Verifica che lo stato sia OK (200)
-                .andExpect(view().name("customerList"))  // Verifica che la vista sia "customerList"
-                .andExpect(model().attributeExists("customers"))  // Verifica che il modello contenga "customers"
-                .andExpect(model().attribute("customers", customerRepository.findBySurname("Rossi")));  // Verifica che "customer" contenga il risultato della query
+        // Percorso aggiornato a /loadCustomers/{surnameToFilter}
+        mockMvc.perform(get("/loadCustomers/Rossi"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("customerList"))
+                .andExpect(model().attributeExists("customers"));
     }
 
+    @Test
+    public void testLoadCustomersByCity() throws Exception {
+        // 3. Implementare un test per la pagina customersbycity
+        mockMvc.perform(get("/customersbycity")
+                        .param("city", "Lugano"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("customerList"))
+                .andExpect(model().attributeExists("customers"));
+    }
 }

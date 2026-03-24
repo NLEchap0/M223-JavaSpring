@@ -57,6 +57,46 @@
                                 </div>
                                 <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Errore età</div>
                             </div>
+
+                            <div class="col-md-8">
+                                <label for="city" class="form-label small text-uppercase text-info fw-bold">Città</label>
+                                <input type="text" id="city" th:field="*{city}"
+                                       class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
+                                       th:classappend="${#fields.hasErrors('city')} ? 'is-invalid'"
+                                       placeholder="Es: Lugano"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">Errore città</div>
+                            </div>
+
+                            <div class="col-12 mt-5">
+                                <h5 class="text-info border-bottom border-secondary pb-2">Dati Carta</h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="ccNumber" class="form-label small text-uppercase text-info fw-bold">Numero Carta</label>
+                                <input type="text" id="ccNumber" th:field="*{ccNumber}"
+                                       class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
+                                       th:classappend="${#fields.hasErrors('ccNumber')} ? 'is-invalid'"
+                                       placeholder="0000 0000 0000 0000"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('ccNumber')}" th:errors="*{ccNumber}">Numero non valido</div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="ccExpiration" class="form-label small text-uppercase text-info fw-bold">Scadenza</label>
+                                <input type="text" id="ccExpiration" th:field="*{ccExpiration}"
+                                       class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
+                                       th:classappend="${#fields.hasErrors('ccExpiration')} ? 'is-invalid'"
+                                       placeholder="MM/YY"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('ccExpiration')}" th:errors="*{ccExpiration}">MM/YY richiesto</div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="ccCVV" class="form-label small text-uppercase text-info fw-bold">CVV</label>
+                                <input type="text" id="ccCVV" th:field="*{ccCVV}"
+                                       class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
+                                       th:classappend="${#fields.hasErrors('ccCVV')} ? 'is-invalid'"
+                                       placeholder="123" maxlength="3"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('ccCVV')}" th:errors="*{ccCVV}">3 cifre</div>
+                            </div>
                         </div>
 
                         <div class="mt-5 pt-4 border-top border-secondary text-center">
@@ -106,4 +146,72 @@
 
 
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ccInput = document.getElementById('ccNumber');
+        const expInput = document.getElementById('ccExpiration');
+        const cvvInput = document.getElementById('ccCVV');
+
+        // 1. Formattazione Numero Carta (Spazio ogni 4 cifre) - Max 16 cifre
+        ccInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 16) value = value.slice(0, 16);
+            e.target.value = value.match(/.{1,4}/g)?.join(' ') || '';
+        });
+
+        // 2. Controllo Data Reale (MM/YY)
+        expInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+
+            // Auto-correzione mese: se scrivi '2' diventa '02', se scrivi '15' diventa '12'
+            if (value.length === 1 && value > 1) {
+                value = '0' + value;
+            }
+            if (value.length >= 2) {
+                let month = parseInt(value.slice(0, 2));
+                if (month > 12) value = '12' + value.slice(2);
+                if (month === 0) value = '01' + value.slice(2);
+            }
+
+            if (value.length > 4) value = value.slice(0, 4);
+
+            // Inserimento automatico dello slash
+            if (value.length >= 3) {
+                e.target.value = value.slice(0, 2) + '/' + value.slice(2);
+            } else {
+                e.target.value = value;
+            }
+
+            // Validazione "Scaduta" in tempo reale
+            validateExpiry(e.target);
+        });
+
+        function validateExpiry(input) {
+            const val = input.value;
+            if (val.length === 5) {
+                const [m, y] = val.split('/').map(n => parseInt(n));
+                const now = new Date();
+                const currentMonth = now.getMonth() + 1;
+                // Otteniamo l'anno a 2 cifre (es. 26 per 2026)
+                const currentYear = parseInt(now.getFullYear().toString().slice(-2));
+
+                // Se l'anno è precedente o se è l'anno corrente ma il mese è passato
+                if (y < currentYear || (y === currentYear && m < currentMonth)) {
+                    input.setCustomValidity("La carta è scaduta");
+                    input.classList.add('is-invalid');
+                } else {
+                    input.setCustomValidity("");
+                    input.classList.remove('is-invalid');
+                }
+            }
+        }
+
+        // 3. Limite CVV (Esattamente 3 cifre)
+        cvvInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 3) value = value.slice(0, 3);
+            e.target.value = value;
+        });
+    });
+</script>
 </html>

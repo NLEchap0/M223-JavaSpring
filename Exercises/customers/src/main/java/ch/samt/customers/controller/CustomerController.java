@@ -2,6 +2,7 @@ package ch.samt.customers.controller;
 
 import ch.samt.customers.data.CustomerRepository;
 import ch.samt.customers.model.Customer;
+import ch.samt.customers.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +18,11 @@ import java.util.*;
 
 @Controller
 public class CustomerController{
-    private CustomerRepository customerRepository;
+    private CustomerService customerService;
 
     @Autowired
-    public CustomerController(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     @GetMapping("/")
@@ -35,9 +36,9 @@ public class CustomerController{
                                 @RequestParam(value = "id",
                                         required = false) Long customerId) {
         if(customerId == null) {
-            model.addAttribute("customers", customerRepository.findAll());
+            model.addAttribute("customers", customerService.getAllCustomers());
         } else {
-            customerRepository.findById(customerId).ifPresentOrElse(
+            customerService.getCustomerById(customerId).ifPresentOrElse(
                     c -> model.addAttribute("customers", List.of(c)),
                     () -> model.addAttribute("customers", Collections.emptyList())
             );
@@ -47,10 +48,17 @@ public class CustomerController{
 
     @GetMapping("/loadCustomers/{surnameToFilter}")
     public String loadCustomersSurname(Model model, @PathVariable String surnameToFilter) {
-        List<Customer> filteredCustomers = customerRepository.findBySurname(surnameToFilter);
+        List<Customer> filteredCustomers = customerService.getCustomersBySurname(surnameToFilter);
 
         model.addAttribute("customers", filteredCustomers);
 
+        return "customerList";
+    }
+
+    @GetMapping("/customersbycity")
+    public String customersByCity(Model model, @RequestParam("city") String city) {
+        List<Customer> filteredCustomers = customerService.getCustomersByCity(city);
+        model.addAttribute("customers", filteredCustomers);
         return "customerList";
     }
 
@@ -59,7 +67,7 @@ public class CustomerController{
         if(errors.hasErrors()) {
             return "home";
         }
-        customerRepository.save(customer);
+        customerService.saveCustomer(customer);
 
         return "redirect:/loadCustomers";
     }

@@ -51,6 +51,7 @@
                                     <th class="py-4 ps-4">ID</th>
                                     <th class="py-4">Nome</th>
                                     <th class="py-4">Cognome</th>
+                                    <th class="py-4">Città</th>
                                     <th class="py-4 text-center">Età</th>
                                 </tr>
                                 </thead>
@@ -59,6 +60,7 @@
                                     <td class="ps-4 text-secondary fw-bold" th:text="${'#' + customer.id}"></td>
                                     <td class="fw-bold fs-5 text-white" th:text="${customer.name}"></td>
                                     <td class="fs-5 text-white opacity-75" th:text="${customer.surname}"></td>
+                                    <td class="fs-5 text-white opacity-75" th:text="${customer.city}"></td>
                                     <td class="text-center">
                                         <span class="badge bg-info text-dark px-3 py-2 fs-6 fw-bold" th:text="${customer.age + ' anni'}"></span>
                                     </td>
