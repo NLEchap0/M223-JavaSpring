@@ -2,62 +2,169 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Post</title>
+    <title>Nuovo Post | Scrivi</title>
+    <style>
+        /* Base e Font */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 300;
+            font-size: 2rem;
+        }
+
+        /* Styling dei campi */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box; /* Importante per il padding */
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+        }
+
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        /* Errori di validazione */
+        .validationError {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Pulsanti */
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        button[type="submit"] {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #219150;
+        }
+
+        .btn-cancel {
+            background-color: #ecf0f1;
+            color: #7f8c8d;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background-color: #dfe6e9;
+            color: #2c3e50;
+        }
+
+        /* Form di ritorno alla lista (inline) */
+        .back-form {
+            display: inline;
+        }
+
+    </style>
 </head>
 <body>
 
-<h1>Welcome!</h1>
+<div class="form-container">
+    <h1>✍️ Crea un nuovo post</h1>
 
-<form method="POST" th:action="@{/blog/new}" th:object="${post}">
-    <div>
-        <label for="title">Titolo:</label>
-        <input type="text" id="title" th:field="*{title}" placeholder="Inserisci il titolo" required/>
-        <span class="validationError"
-              th:if="${#fields.hasErrors('title')}"
-              th:errors="${post.title}">Name Error
-    </span>
-    </div>
-    <div>
-        <label for="publisheddate">Data di pubblicazione:</label>
-        <input type="date" id="publisheddate" th:field="*{publisheddate}" placeholder="Inserisci la Data di pubblicazione" required/>
-        <span class="validationError"
-              th:if="${#fields.hasErrors('publisheddate')}"
-              th:errors="${post.publisheddate}">Publisheddate Error
-    </span>
-    </div>
-    <div>
-        <label for="category">Categoria:</label>
-        <input type="text" id="category" th:field="*{category}" placeholder="Inserisci la categoria" required/>
-        <span class="validationError"
-              th:if="${#fields.hasErrors('category')}"
-              th:errors="${post.category}">Category Error
-    </span>
-    </div>
-    <div>
-        <label for="author">Autore:</label>
-        <input type="text" id="author" th:field="*{author}" placeholder="Inserisci l'autore" required/>
-        <span class="validationError"
-              th:if="${#fields.hasErrors('author')}"
-              th:errors="${post.author}">Author Error
-    </span>
-    </div>
-    <div>
-        <label for="content">Contenuto:</label>
-        <textarea id="content" th:field="*{content}" placeholder="Inserisci il Contenuto"></textarea>
-        <span class="validationError"
-              th:if="${#fields.hasErrors('content')}"
-              th:errors="${post.content}">Content Error
-    </span>
-    </div>
+    <form method="POST" th:action="@{/blog/new}" th:object="${post}">
+        <div class="form-group">
+            <label for="title">Titolo del Post</label>
+            <input type="text" id="title" th:field="*{title}" placeholder="Cosa hai in mente?" required/>
+            <span class="validationError" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Errore Titolo</span>
+        </div>
 
-    <div>
-        <button type="submit">Salva Post</button>
-    </div>
-</form>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="form-group">
+                <label for="publisheddate">Data di pubblicazione</label>
+                <input type="date" id="publisheddate" th:field="*{publisheddate}" required/>
+                <span class="validationError" th:if="${#fields.hasErrors('publisheddate')}" th:errors="*{publisheddate}">Errore Data</span>
+            </div>
 
-<form method="get" th:action="@{/blog}">
-    <input type="submit" value="lista">
-</form>
+            <div class="form-group">
+                <label for="category">Categoria</label>
+                <input type="text" id="category" th:field="*{category}" placeholder="es. Tecnologia, Viaggi" required/>
+                <span class="validationError" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Errore Categoria</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="author">Nome Autore</label>
+            <input type="text" id="author" th:field="*{author}" placeholder="Il tuo nome" required/>
+            <span class="validationError" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Errore Autore</span>
+        </div>
+
+        <div class="form-group">
+            <label for="content">Contenuto dell'articolo</label>
+            <textarea id="content" th:field="*{content}" placeholder="Scrivi qui il tuo post..."></textarea>
+            <span class="validationError" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Errore Contenuto</span>
+        </div>
+
+        <div class="actions">
+            <button type="submit">🚀 Pubblica Post</button>
+            <a href="/blog" class="btn-cancel">Annulla</a>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>

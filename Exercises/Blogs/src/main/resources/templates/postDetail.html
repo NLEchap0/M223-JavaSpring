@@ -2,20 +2,135 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>PostDetail</title>
+    <title th:text="${post.title} + ' | My Blog'">PostDetail</title>
+    <style>
+        /* Base e Font */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #2c3e50;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container dell'articolo */
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        /* Header del Post */
+        h1 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .category-tag {
+            background-color: #e8f4fd;
+            color: #3498db;
+            padding: 2px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        /* Contenuto del Post */
+        .content {
+            font-size: 1.15rem;
+            color: #34495e;
+            white-space: pre-wrap; /* Mantiene gli a capo del testo originale */
+        }
+
+        /* Footer del post (Like e Back) */
+        .post-footer {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .likes-count {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .btn-back:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
 </head>
 <body>
 
-    <h1 th:text="${post.title}"></h1>
+<div class="container">
+    <h1 th:text="${post.title}">Titolo del Post</h1>
 
-    <h2><b>Data pubblicazione:</b> <span th:text="${post.publisheddate}"></span></h2>
+    <div class="meta-info">
+        <div class="meta-item">
+            📅 <span th:text="${post.publisheddate}">01/01/2024</span>
+        </div>
+        <div class="meta-item">
+            ✍️ <strong style="margin-left:5px" th:text="${post.author}">Autore</strong>
+        </div>
+        <div class="meta-item">
+            <span class="category-tag" th:text="${post.category}">Categoria</span>
+        </div>
+    </div>
 
-    <p><b>Autore:</b> <span th:text="${post.author}"></span></p>
-    <p><b>Categoria:</b> <span th:text="${post.category}"></span></p>
-    <p><b>Like:</b> <span th:text="${post.likes}"></span></p>
-    <p th:text="${post.content}"></p>
+    <article class="content" th:text="${post.content}">
+        Qui andrà il contenuto del post...
+    </article>
 
-    <a href="/blog">Torna indietro</a>
+    <div class="post-footer">
+        <div class="likes-count">
+            ❤️ <span th:text="${post.likes}">0</span> Like
+        </div>
+        <a href="/blog" class="btn-back">← Torna alla lista</a>
+    </div>
+</div>
 
 </body>
 </html>
