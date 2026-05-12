@@ -1,0 +1,44 @@
+server:
+  port: 10467
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    generate-unique-name: false
+    url: jdbc:h2:mem:dbDev
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+
+  sql:
+    init:
+      data-locations:
+        - classpath:/data.sql
+---
+
+server:
+  port: 10468
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    generate-unique-name: false
+    url: jdbc:h2:mem:dbProd
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+
+  sql:
+    init:
+      data-locations:
+        - classpath:/dataProd.sql

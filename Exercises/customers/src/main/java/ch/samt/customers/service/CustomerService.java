@@ -28,10 +28,10 @@ public class CustomerService {
     public List<Customer> getCustomersBySurname(String surname) {
         return customerRepository.findBySurnameIgnoreCase(surname);
     }
-
+/*
     public List<Customer> getCustomersByCity(String city) {
         return customerRepository.findByCityIgnoreCase(city);
-    }
+    }*/
 
     public void saveCustomer(Customer customer) {
         customerRepository.save(customer);

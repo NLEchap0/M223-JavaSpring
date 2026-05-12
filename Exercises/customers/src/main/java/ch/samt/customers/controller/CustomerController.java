@@ -54,13 +54,13 @@ public class CustomerController{
 
         return "customerList";
     }
-
+/*
     @GetMapping("/customersbycity")
     public String customersByCity(Model model, @RequestParam("city") String city) {
         List<Customer> filteredCustomers = customerService.getCustomersByCity(city);
         model.addAttribute("customers", filteredCustomers);
         return "customerList";
-    }
+    }*/
 
     @PostMapping("/addCustomer")
     public String addCustomer(@Valid Customer customer, Errors errors) {

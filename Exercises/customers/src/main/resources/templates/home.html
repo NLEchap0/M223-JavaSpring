@@ -7,10 +7,9 @@
 
 <th:block th:replace="~{fragments :: navbar}"></th:block>
 
-
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-lg-10 col-xl-8">
+        <div class="col-lg-10 col-xl-9">
 
             <div class="text-center mb-5">
                 <h1 class="display-4 fw-bold text-white mb-2">Benvenuto nella Home!</h1>
@@ -48,170 +47,76 @@
 
                             <div class="col-md-4">
                                 <label for="age" class="form-label small text-uppercase tracking-wider text-info fw-bold">Età</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-secondary border-secondary text-white"><i class="bi bi-calendar-event"></i></span>
-                                    <input type="number" id="age" th:field="*{age}"
-                                           class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
-                                           th:classappend="${#fields.hasErrors('age')} ? 'is-invalid'"
-                                           placeholder="0" required/>
-                                </div>
-                                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Errore età</div>
-                            </div>
-
-                            <div class="col-md-8">
-                                <label for="city" class="form-label small text-uppercase text-info fw-bold">Città</label>
-                                <input type="text" id="city" th:field="*{city}"
+                                <input type="number" id="age" th:field="*{age}"
                                        class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
-                                       th:classappend="${#fields.hasErrors('city')} ? 'is-invalid'"
-                                       placeholder="Es: Lugano"/>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">Errore città</div>
+                                       th:classappend="${#fields.hasErrors('age')} ? 'is-invalid'"
+                                       placeholder="0" required/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Errore età</div>
                             </div>
 
-                            <div class="col-12 mt-5">
-                                <h5 class="text-info border-bottom border-secondary pb-2">Dati Carta</h5>
+                            <div class="col-12 mt-4">
+                                <h5 class="text-info border-bottom border-secondary pb-2 small text-uppercase tracking-widest">Indirizzo di Residenza</h5>
                             </div>
 
-                            <div class="col-md-6">
-                                <label for="ccNumber" class="form-label small text-uppercase text-info fw-bold">Numero Carta</label>
-                                <input type="text" id="ccNumber" th:field="*{ccNumber}"
-                                       class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
-                                       th:classappend="${#fields.hasErrors('ccNumber')} ? 'is-invalid'"
-                                       placeholder="0000 0000 0000 0000"/>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('ccNumber')}" th:errors="*{ccNumber}">Numero non valido</div>
+                            <div class="col-md-9">
+                                <label class="form-label small text-uppercase text-info fw-bold">Via / Strada</label>
+                                <input type="text" th:field="*{address.street}"
+                                       class="form-control bg-dark text-white border-secondary custom-input" placeholder="Es: Via Caratti" required/>
                             </div>
 
                             <div class="col-md-3">
-                                <label for="ccExpiration" class="form-label small text-uppercase text-info fw-bold">Scadenza</label>
-                                <input type="text" id="ccExpiration" th:field="*{ccExpiration}"
-                                       class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
-                                       th:classappend="${#fields.hasErrors('ccExpiration')} ? 'is-invalid'"
-                                       placeholder="MM/YY"/>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('ccExpiration')}" th:errors="*{ccExpiration}">MM/YY richiesto</div>
+                                <label class="form-label small text-uppercase text-info fw-bold">N°</label>
+                                <input type="text" th:field="*{address.num}"
+                                       class="form-control bg-dark text-white border-secondary custom-input" placeholder="67" required/>
                             </div>
 
                             <div class="col-md-3">
-                                <label for="ccCVV" class="form-label small text-uppercase text-info fw-bold">CVV</label>
-                                <input type="text" id="ccCVV" th:field="*{ccCVV}"
-                                       class="form-control form-control-lg bg-dark text-white border-secondary custom-input"
-                                       th:classappend="${#fields.hasErrors('ccCVV')} ? 'is-invalid'"
-                                       placeholder="123" maxlength="3"/>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('ccCVV')}" th:errors="*{ccCVV}">3 cifre</div>
+                                <label class="form-label small text-uppercase text-info fw-bold">NAP / ZIP</label>
+                                <input type="text" th:field="*{address.zip}"
+                                       class="form-control bg-dark text-white border-secondary custom-input" placeholder="6500" required/>
+                            </div>
+
+                            <div class="col-md-5">
+                                <label class="form-label small text-uppercase text-info fw-bold">Città</label>
+                                <input type="text" th:field="*{address.city}"
+                                       class="form-control bg-dark text-white border-secondary custom-input" placeholder="Bellinzona" required/>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label small text-uppercase text-info fw-bold">Nazione</label>
+                                <input type="text" th:field="*{address.nation}"
+                                       class="form-control bg-dark text-white border-secondary custom-input" placeholder="Svizzera" required/>
                             </div>
                         </div>
 
                         <div class="mt-5 pt-4 border-top border-secondary text-center">
-                            <div class="mb-4">
-                                <button type="submit" class="btn btn-info btn-lg px-5 py-3 fw-bold text-dark shadow hover-scale w-100 w-md-auto">
-                                    SALVA CLIENTE <i class="bi bi-cloud-arrow-up-fill ms-2"></i>
-                                </button>
-                            </div>
+                            <button type="submit" class="btn btn-info btn-lg px-5 py-3 fw-bold text-dark shadow hover-scale w-100 w-md-auto">
+                                SALVA CLIENTE <i class="bi bi-cloud-arrow-up-fill ms-2"></i>
+                            </button>
                         </div>
-
                     </form>
                 </div>
             </div>
-
-            <p class="text-center text-secondary mt-4 small">
-                Tutti i campi sono obbligatori. I dati verranno salvati nel database centrale.
-            </p>
         </div>
     </div>
 </div>
 
 <style>
-    .custom-input:focus {
-        background-color: #1a1a1a !important;
-        border-color: #0dcaf0 !important;
-        box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
-        color: white !important;
-    }
-    .hover-scale { transition: transform 0.2s; }
-    .hover-scale:hover { transform: scale(1.05); }
-    .hover-opacity:hover { opacity: 0.8; }
-    .tracking-wider { letter-spacing: 1px; }
-    .custom-input::placeholder {
-        color: rgba(255, 255, 255, 0.5) !important;/
-    font-style: italic;
-        font-size: 0.9rem;
-    }
-    .custom-input:focus::placeholder {
-        color: rgba(13, 202, 240, 0.7) !important;
-    }
     .custom-input {
         background-color: #1a1a1a !important;
         border: 1px solid #444 !important;
         color: #ffffff !important;
+        transition: all 0.2s;
     }
+    .custom-input:focus {
+        background-color: #1a1a1a !important;
+        border-color: #0dcaf0 !important;
+        box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+    }
+    .hover-scale { transition: transform 0.2s; }
+    .hover-scale:hover { transform: scale(1.03); }
+    .tracking-wider { letter-spacing: 1px; }
 </style>
 
-
 </body>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const ccInput = document.getElementById('ccNumber');
-        const expInput = document.getElementById('ccExpiration');
-        const cvvInput = document.getElementById('ccCVV');
-
-        // 1. Formattazione Numero Carta (Spazio ogni 4 cifre) - Max 16 cifre
-        ccInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 16) value = value.slice(0, 16);
-            e.target.value = value.match(/.{1,4}/g)?.join(' ') || '';
-        });
-
-        // 2. Controllo Data Reale (MM/YY)
-        expInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-
-            // Auto-correzione mese: se scrivi '2' diventa '02', se scrivi '15' diventa '12'
-            if (value.length === 1 && value > 1) {
-                value = '0' + value;
-            }
-            if (value.length >= 2) {
-                let month = parseInt(value.slice(0, 2));
-                if (month > 12) value = '12' + value.slice(2);
-                if (month === 0) value = '01' + value.slice(2);
-            }
-
-            if (value.length > 4) value = value.slice(0, 4);
-
-            // Inserimento automatico dello slash
-            if (value.length >= 3) {
-                e.target.value = value.slice(0, 2) + '/' + value.slice(2);
-            } else {
-                e.target.value = value;
-            }
-
-            // Validazione "Scaduta" in tempo reale
-            validateExpiry(e.target);
-        });
-
-        function validateExpiry(input) {
-            const val = input.value;
-            if (val.length === 5) {
-                const [m, y] = val.split('/').map(n => parseInt(n));
-                const now = new Date();
-                const currentMonth = now.getMonth() + 1;
-                // Otteniamo l'anno a 2 cifre (es. 26 per 2026)
-                const currentYear = parseInt(now.getFullYear().toString().slice(-2));
-
-                // Se l'anno è precedente o se è l'anno corrente ma il mese è passato
-                if (y < currentYear || (y === currentYear && m < currentMonth)) {
-                    input.setCustomValidity("La carta è scaduta");
-                    input.classList.add('is-invalid');
-                } else {
-                    input.setCustomValidity("");
-                    input.classList.remove('is-invalid');
-                }
-            }
-        }
-
-        // 3. Limite CVV (Esattamente 3 cifre)
-        cvvInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 3) value = value.slice(0, 3);
-            e.target.value = value;
-        });
-    });
-</script>
 </html>

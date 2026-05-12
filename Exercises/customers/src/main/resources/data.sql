@@ -1,6 +1,54 @@
-delete
-from Customer;
-insert into Customer (id, name, surname, age, city, cc_number, cc_expiration, cc_cvv)
-values (NEXT VALUE FOR customer_seq, 'Mario', 'Rossi', 24, 'Milano', '4242424242424242', '12/26', '123'),
-       (NEXT VALUE FOR customer_seq, 'Guido', 'Bianchi', 34, 'Roma', '4242424242424242', '05/25', '456'),
-       (NEXT VALUE FOR customer_seq, 'Gino', 'Verdi', 57, 'Lugano', '4242424242424242', '11/24', '789');
+delete from customer_mealgroup;
+delete from Reservation;
+delete from Customer;
+delete from Address;
+delete from meal_group;
+
+insert into Address (id, street, num, zip, city, nation)
+values (NEXT VALUE FOR address_seq, 'Piazza Guisan', '6', '6512', 'Giubiasco', 'Svizzera'),
+       (NEXT VALUE FOR address_seq, 'Via Bellinzona', '10', '6743', 'Bodio', 'Svizzera'),
+       (NEXT VALUE FOR address_seq, 'Viale Stefano Franscini', '23', '6500', 'Lugano', 'Svizzera');
+
+insert into Customer (id, name, surname, age, address_id)
+values (NEXT VALUE FOR customer_seq, 'Mario', 'Rossi', 24, (
+    select distinct id from address where street = 'Piazza Guisan' and num = '6' and zip = '6512' and city = 'Giubiasco' and nation = 'Svizzera'
+)),
+       (NEXT VALUE FOR customer_seq, 'Guido', 'Bianchi', 34, (
+           select distinct id from address where street = 'Via Bellinzona' and num = '10' and zip = '6743' and city = 'Bodio' and nation = 'Svizzera'
+       )),
+       (NEXT VALUE FOR customer_seq, 'Gino', 'Verdi', 57, (
+           select distinct id from address where street = 'Viale Stefano Franscini' and num = '23' and zip = '6500' and city = 'Lugano' and nation = 'Svizzera'
+       )
+       );
+
+insert into Reservation (id, room, checkin, checkout, customer_id)
+values
+    (
+        NEXT VALUE FOR reservation_seq, '437', '23.12.2024', '06.01.2025', (
+        select distinct id from customer where name = 'Mario' and surname = 'Rossi'
+    )
+    ),
+    (   NEXT VALUE FOR reservation_seq, '124', '01.08.2025', '15.08.2025', (
+        select distinct id from customer where name = 'Mario' and surname = 'Rossi'
+    )
+    ),
+    (
+        NEXT VALUE FOR reservation_seq, '437', '27.12.2024', '02.01.2025', (
+        select distinct id from customer where name = 'Guido' and surname = 'Bianchi'
+    )
+    );
+
+insert into meal_group (id, name, description)
+values (NEXT VALUE FOR mealgroup_seq, 'Colazione', 'Gruppo della colazione'),
+       (NEXT VALUE FOR mealgroup_seq, 'Pranzo', 'Gruppo del pranzo'),
+       (NEXT VALUE FOR mealgroup_seq, 'Cena', 'Gruppo della cena');
+
+insert into customer_mealgroup (customer_id, mealgroup_id)
+values
+    ((select id from customer where name='Mario' and surname='Rossi'), (select id from meal_group where name='Colazione')),
+    ((select id from customer where name='Gino' and surname='Verdi'), (select id from meal_group where name='Colazione')),
+    ((select id from customer where name='Mario' and surname='Rossi'), (select id from meal_group where name='Pranzo')),
+    ((select id from customer where name='Guido' and surname='Bianchi'), (select id from meal_group where name='Pranzo')),
+    ((select id from customer where name='Guido' and surname='Bianchi'), (select id from meal_group where name='Cena')),
+    ((select id from customer where name='Mario' and surname='Rossi'), (select id from meal_group where name='Cena')),
+    ((select id from customer where name='Gino' and surname='Verdi'), (select id from meal_group where name='Cena'));
